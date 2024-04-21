@@ -38,17 +38,16 @@ def tir(canvas, n):
     global total
     global count  #permet de modifier un paramètre de façon globale
     shoots=n
-    while count<n and shoots>0:
+    while count<5 and shoots>0:
         i=rd(0,400)
         j=rd(0,400)
         o=canvas.create_oval(i, j, i+20, j+20, fill='black')
         total+=score(i,j)
         count+=1
         shoots-=1
-    label["text"] = f"Score: {total}" #*permet de modifier directement le label
+    label["text"] = f"Score: {total}" #permet de modifier directement le label
     if count==5:
          b["state"] = "disabled"
-    
 
 
 
@@ -70,8 +69,9 @@ def score(x,y):
     return scoretotal
 
 
-def uniquetir(event):
-    tir(canvas, 1)
+def uniquetir(event, canvas):
+    if event.char == "f":
+        tir(canvas, 1)
     
 
 
@@ -79,34 +79,28 @@ def uniquetir(event):
     
     
     
+if __name__ == "__main__":   
+
+    #Trace la cible    
+    canvas = Canvas(window, width=400, height=400, background='red')
+    oval=cercle()
+    nbres=texte()
+    ligne1 = canvas.create_line(200, 0, 200, 400, fill='red')
+    ligne2 = canvas.create_line(0, 200, 400, 200, fill='red')
     
-
-#Trace la cible    
-canvas = Canvas(window, width=400, height=400, background='red')
-oval=cercle()
-nbres=texte()
-ligne1 = canvas.create_line(200, 0, 200, 400, fill='red')
-ligne2 = canvas.create_line(0, 200, 400, 200, fill='red')
-
-#Commande les boutons et les place
-b = Button(root, text='Feu!', command= lambda :tir(canvas, 5), name='fire_all')  # on utilise lambda pour appeler la fonction en précisant le paramètre
-b1 = Button(root, text='Quitter', command=window.destroy)
-canvas.grid(row=0, column=0, columnspan=3)
-b.grid(row=1, column=0, sticky=W)
-b1.grid(row=1, column=2, sticky=E)
-
-#Construit le score
-label = tk.Label(window, text="Score: 0", name="score")
-label.grid(row=1, column=1, sticky=W) #permet d'afficher le label et de le placer
-
-
-#Construit le tir unique en appuyant sur 'f'
-window.bind("<KeyPress-f>", lambda event : uniquetir())
-
-
-        
-
-
-
-root.mainloop()
+    #Commande les boutons et les place
+    b = Button(root, text='Feu!', command= lambda :tir(canvas, 5), name='fire_all')  # on utilise lambda pour appeler la fonction en précisant le paramètre
+    b1 = Button(root, text='Quitter', command=window.destroy)
+    canvas.grid(row=0, column=0, columnspan=3)
+    b.grid(row=1, column=0, sticky=W)
+    b1.grid(row=1, column=2, sticky=E)
+    
+    #Construit le score
+    label = Label(window, text="Score: 0", name="score")
+    label.grid(row=1, column=1, sticky=W) #permet d'afficher le label et de le placer
+    
+    
+    #Construit le tir unique en appuyant sur 'f' par un event
+    root.bind("<Key>",lambda event : uniquetir(event, canvas))
+    root.mainloop() #comme j'ai mis root avant je suis obligée de mettre root ici pour relier les deux
 
