@@ -67,9 +67,6 @@ class Polynome:
         
        
         
-        
-            
-
 poly=Polynome(2, 5, [2,3,4,8])
 poly3=Polynome(2, 2, [2,3,4,8])
 poly2=Polynome(2, 4, [4,5,8,6])
